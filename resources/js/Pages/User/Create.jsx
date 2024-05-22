@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import { useRef } from 'react';
+import SelectBox from "@/Components/SelectBox";
 
 
 export default function UserIndex({ auth }) {
@@ -16,13 +17,12 @@ export default function UserIndex({ auth }) {
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
         name: "",
         email: "",
+        role: "user",
         password: "",
         password_confirmation: "",
     });
 
     const submit = (e) => {
-        console.log(processing);
-        console.log(recentlySuccessful)
         e.preventDefault();
 
         post(route('users.store'), {
@@ -90,6 +90,28 @@ export default function UserIndex({ auth }) {
                         required
                         autoComplete="username"
                     />
+
+                    <InputError className="mt-2" message={errors.email} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="role" value="Role" />
+
+                    <SelectBox onChange={(e) => {
+                        setData('role', e.target.value);
+                    }} 
+                    id='role'
+                    currentValue='user'
+                    options={[
+                        {
+                            value: 'admin',
+                            label: 'Admin',
+                        },
+                        {
+                            value: 'user',
+                            label: 'User'
+                        }
+                    ]} className="mt-1 block w-full"/>
 
                     <InputError className="mt-2" message={errors.email} />
                 </div>

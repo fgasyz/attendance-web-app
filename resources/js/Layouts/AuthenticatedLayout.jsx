@@ -9,23 +9,33 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const menu = [
-        {
-            name: "Dashboard",
-            href: route("dashboard"),
-            current: route().current("dashboard"),
-        },
-        {
-            name: "User",
-            href: route("users"),
-            current: route().current("users"),
-        },
-        {
-            name: "Absensi",
-            href: route("absensi"),
-            current: route().current("absensi"),
-        },
-    ];
+    const menu = (user) => {
+        if (user.role == "admin") {
+            return [
+                {
+                    name: "Dashboard",
+                    href: route("dashboard"),
+                    current: route().current("dashboard"),
+                },
+                {
+                    name: "User",
+                    href: route("users"),
+                    current: route().current("users"),
+                },
+                {
+                    name: "Absensi",
+                    href: route("absensi"),
+                    current: route().current("absensi"),
+                },
+            ];
+        } else {
+            return [{
+                name: "Dashboard",
+                href: route("dashboard"),
+                current: route().current("dashboard"),
+            }];
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -40,9 +50,11 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                {menu.map((item) => {
+                                {
+                                menu(user).map((item, index) => {
                                     return (
                                         <NavLink
+                                        key={index}
                                             href={item.href}
                                             active={item.current}
                                         >
@@ -148,9 +160,10 @@ export default function Authenticated({ user, header, children }) {
                     }
                 >
                     <div className="pt-2 pb-3 space-y-1">
-                        {menu.map((item) => {
+                        {menu(user).map((item, index) => {
                             return (
                                 <ResponsiveNavLink
+                                key={index}
                                     href={item.href}
                                     active={item.current}
                                 >
