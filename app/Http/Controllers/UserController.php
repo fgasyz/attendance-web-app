@@ -30,4 +30,21 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
+
+    public function edit(User $user) {
+        return Inertia::render('User/Edit', ['user' => $user]);
+    }
+
+    public function update(Request $request, User $user) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'. $user->id,
+            'password' => 'nullable|min:8',
+            'password_confirmation' => 'nullable|same:password',
+        ]);
+
+        $user->update($request->all());
+
+        return redirect()->route('users');
+    }
 }
