@@ -8,6 +8,7 @@ import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import { useRef } from 'react';
 import SelectBox from "@/Components/SelectBox";
+import index from "@/Data/index.json";
 
 
 export default function UserIndex({ auth }) {
@@ -102,16 +103,7 @@ export default function UserIndex({ auth }) {
                     }} 
                     id='role'
                     currentValue='user'
-                    options={[
-                        {
-                            value: 'admin',
-                            label: 'Admin',
-                        },
-                        {
-                            value: 'user',
-                            label: 'User'
-                        }
-                    ]} className="mt-1 block w-full"/>
+                    options={index} className="mt-1 block w-full"/>
 
                     <InputError className="mt-2" message={errors.email} />
                 </div>

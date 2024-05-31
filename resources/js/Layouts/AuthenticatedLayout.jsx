@@ -23,9 +23,9 @@ export default function Authenticated({ user, header, children }) {
                     current: route().current("users"),
                 },
                 {
-                    name: "Absensi",
-                    href: route("absensi"),
-                    current: route().current("absensi"),
+                    name: "Attendance",
+                    href: route("attendance.index"),
+                    current: route().current("attendance.index"),
                 },
             ];
         } else {

@@ -8,6 +8,7 @@ import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import { useRef } from 'react';
 import SelectBox from "@/Components/SelectBox";
+import index from "@/Data/index.json";
 
 
 export default function UserEdit({user, auth }) {
@@ -53,10 +54,10 @@ export default function UserEdit({user, auth }) {
 
                         <section className="max-w-xl">
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Create User</h2>
+                <h2 className="text-lg font-medium text-gray-900">Edit User</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Create a new user.
+                    Edit a user detail.
                 </p>
             </header>
 
@@ -100,17 +101,8 @@ export default function UserEdit({user, auth }) {
                         setData('role', e.target.value);
                     }} 
                     id='role'
-                    currentValue='user'
-                    options={[
-                        {
-                            value: 'admin',
-                            label: 'Admin',
-                        },
-                        {
-                            value: 'user',
-                            label: 'User'
-                        }
-                    ]} className="mt-1 block w-full"/>
+                    currentValue={user.role}
+                    options={index} className="mt-1 block w-full"/>
 
                     <InputError className="mt-2" message={errors.email} />
                 </div>
