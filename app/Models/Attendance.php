@@ -13,7 +13,7 @@ class Attendance extends Model
     use HasFactory;
     
     public $fillable = [
-        'user_id', 'latitude', 'longitude',
+        'user_id', 'latitude', 'longitude', 'address', 'description', 'status'
     ];
 
 

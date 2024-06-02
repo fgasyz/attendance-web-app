@@ -10,7 +10,8 @@ import { useRef } from "react";
 import SelectBox from "@/Components/SelectBox";
 import { useState, useEffect } from "react";
 
-export default function SubmitAttendance() {
+export default function Submit() {
+
     const [transitioning, setTransitioning] = useState(false);
 
     const { data, setData, post, errors, transform, processing, recentlySuccessful } =
@@ -19,28 +20,42 @@ export default function SubmitAttendance() {
             description: "",
             latitude: "",
             longitude: "",
-            location: {}
+            location: {},
+            address: ""
         });
 
-    const submit = (e) => {
+    const submit =  (e) => {
         e.preventDefault();
         navigator.geolocation.getCurrentPosition(
             function (position) {
-            setData("location", {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            });
+                setData("location", {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                });
+                if(data.location.hasOwnProperty("latitude") && data.location.hasOwnProperty("longitude")) {
+                getLocation(`https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=nZNJsKY6wAwZfcPH2TD4tHPCJzxpq4pUUZpRICg1INY&at=${data.location.latitude},${data.location.longitude}&lang=id`);
+            }
         }, function (_) {
             alert("cannot get current location");
         });
     };
 
+  async function getLocation (url) {
+        fetch(url).then(async(data) => {
+            const result = await data.json();
+            setData("address", result.items[0].address.label);
+        }).catch((err) => {
+            console.error(err);
+        });
+    }
+
     useEffect(() => {
-        if(data.location.hasOwnProperty("latitude") && data.location.hasOwnProperty("longitude")) {
+        if(data.address !== '') {
             transform((data) => ({
                 ...data.location,
                 status: data.status,
-                description: data.description
+                description: data.description,
+                address: data.address
             }))
             post(route("attendance.submit"), {
                 preserveScroll: true,
