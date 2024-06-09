@@ -5,8 +5,8 @@ Sistem informasi manajemen absensi
 ### Fitur :
 - Authentikasi 
 - Authorisasi
-- User
-- Absen
+- Manajemen User
+- Manajemen Absen
 
 ### Screenshoot :
 <div> 
