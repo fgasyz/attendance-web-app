@@ -11,16 +11,26 @@ use Inertia\Inertia;
 class AttendanceController extends Controller
 {
 
-    static function isTodayAttendanceSubmitted() : bool {
-        return Attendance::where('user_id', Auth::user()->id)->whereDate('created_at', now()->toDateString())->exists();
+    static function isTodayAttendanceSubmitted(): bool
+    {
+        if (Auth::user() == null) {
+            return false;
+        } else {
+            return Attendance::where('user_id', Auth::user()->id)->whereDate('created_at', now()->toDateString())->exists();
+        }
     }
 
-    public function index() {
-        return Inertia::render('Attendance/Index');
+    public function index()
+    {
+        $attendances = Attendance::with('user')->paginate(10);
+
+        return Inertia::render('Attendance/Index', ['attendances' => $attendances]);
     }
 
     //
-    public function submit(Request $request) {
+    public function submit(Request $request)
+    {
+
         $request->validate([
             'status' => 'required',
             'description' => 'required_if:status,sick,leave,permit,business_trip,remote|max:500',

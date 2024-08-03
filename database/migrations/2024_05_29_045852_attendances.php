@@ -13,7 +13,7 @@ return new class extends Migration
     {
         //
         Schema::create('attendances', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('latitude', 20)->nullable();
             $table->string('longitude', 20)->nullable();
